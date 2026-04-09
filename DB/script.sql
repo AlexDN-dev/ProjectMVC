@@ -1,0 +1,36 @@
+﻿IF DB_ID('ProjectMVC') IS NULL
+CREATE DATABASE ProjectMVC;
+GO
+
+USE ProjectMVC;
+GO
+
+CREATE TABLE [dbo].[Users]
+(
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [Firstname] VARCHAR(30) NOT NULL,
+    [Lastname] VARCHAR(30) NOT NULL,
+    [Email] VARCHAR(50) NOT NULL UNIQUE,
+    [PasswordHash] VARCHAR(255) NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE()
+);
+GO
+
+CREATE TABLE [dbo].[Roles]
+(
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [RoleName] VARCHAR(50) NOT NULL UNIQUE
+);
+GO
+
+CREATE TABLE [dbo].[UserRoles]
+(
+    [UserId] INT NOT NULL,
+    [RoleId] INT NOT NULL,
+
+    PRIMARY KEY (UserId, RoleId),
+
+    FOREIGN KEY (UserId) REFERENCES Users(Id),
+    FOREIGN KEY (RoleId) REFERENCES Roles(Id)
+);
+GO
