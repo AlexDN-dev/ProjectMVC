@@ -109,18 +109,14 @@ public class UserController : Controller
         {
             return View(model);
         }
-        Console.WriteLine("SelectedRoleIds: " + string.Join(",", model.SelectedRoleIds));
-        Console.WriteLine("Roles dans UserDto: " + model.User.Role.Count);
         model.Roles = _roleService.GetAllRoles();
         model.User.Role = model.Roles
             .Where(r => model.SelectedRoleIds.Contains(r.Id))
             .ToList();
-        
-        Console.WriteLine("Roles après mapping: " + model.User.Role.Count);
 
         _userService.EditUser(model.User);
-
-        return RedirectToAction(nameof(Index));
+        TempData["Message"] = "Succès de l'édition de l'utilisateur";
+        return RedirectToAction("Index");
     }
 }
 

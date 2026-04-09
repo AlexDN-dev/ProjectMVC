@@ -64,10 +64,6 @@ public class UserService : IUserService
         foreach (var roleDto in userDto.Role)
         {
             var role = _roleRepository.GetById(roleDto.Id);
-            Console.WriteLine("DEBUGGING : ");
-            Console.WriteLine(role == null
-                ? $"Role {roleDto.Id} introuvable"
-                : $"Role trouvé : {role.RoleName}");
             if (role is not null)
             {
                 existingUser.Roles.Add(role);
