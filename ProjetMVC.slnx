@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="BLL/BLL.csproj" />
+  <Project Path="DAL/DAL.csproj" />
+  <Project Path="DB/DB.sqlproj" Type="42ea0dbd-9cf1-443e-919e-be9c484e4577" />
+  <Project Path="Web/Web.csproj" />
+</Solution>
