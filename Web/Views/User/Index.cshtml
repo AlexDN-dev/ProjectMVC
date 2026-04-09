@@ -35,10 +35,7 @@
                 <td>@f.Email</td>
                 @if (f.Role.Any())
                 {
-                    foreach (Role role in f.Role)
-                    {
-                        <td>@role.RoleName</td>
-                    }
+                    <td>@string.Join(", ", f.Role.Select(r => r.RoleName))</td>
                 }
                 else
                 {
@@ -47,6 +44,7 @@
                 <td>
                     <a class="btn btn-primary" asp-action="Details" asp-route-id="@f.Id">Voir plus</a>
                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@f.Id">Supprimer</a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@f.Id">Éditer</a>
                 </td>
             </tr>
         }

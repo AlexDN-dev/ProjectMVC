@@ -9,10 +9,12 @@ namespace BLL.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IRoleRepository _roleRepository;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IRoleRepository roleRepository)
     {
         _userRepository = userRepository;
+        _roleRepository = roleRepository;
     }
     
     public List<UserDto> GetAllUsers()
@@ -46,9 +48,35 @@ public class UserService : IUserService
         return UserMapper.UserToDto(user);
     }
 
-    public UserDto EditUser(UserDto user)
+    public UserDto EditUser(UserDto userDto)
     {
-        throw new NotImplementedException();
+        User? existingUser = _userRepository.GetById(userDto.Id);
+
+        if (existingUser is null)
+            throw new Exception("Utilisateur introuvable.");
+
+        existingUser.Firstname = userDto.Firstname;
+        existingUser.Lastname = userDto.Lastname;
+        existingUser.Email = userDto.Email;
+
+        existingUser.Roles.Clear();
+
+        foreach (var roleDto in userDto.Role)
+        {
+            var role = _roleRepository.GetById(roleDto.Id);
+            Console.WriteLine("DEBUGGING : ");
+            Console.WriteLine(role == null
+                ? $"Role {roleDto.Id} introuvable"
+                : $"Role trouvé : {role.RoleName}");
+            if (role is not null)
+            {
+                existingUser.Roles.Add(role);
+            }
+        }
+
+        _userRepository.Update(existingUser);
+
+        return UserMapper.UserToDto(existingUser);
     }
 
     public bool DeleteUserById(int id)

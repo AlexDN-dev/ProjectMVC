@@ -33,5 +33,5 @@ public partial class User
 
     [ForeignKey("UserId")]
     [InverseProperty("Users")]
-    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
+    public virtual List<Role> Roles { get; set; } = new List<Role>();
 }

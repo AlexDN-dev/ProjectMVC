@@ -1,5 +1,6 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
+using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -8,10 +9,12 @@ namespace Web.Controllers;
 public class UserController : Controller
 {
     private readonly IUserService _userService;
+    private readonly IRoleService _roleService;
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, IRoleService roleService)
     {
         _userService = userService;
+        _roleService = roleService;
     }
 
     public IActionResult Index()
@@ -79,4 +82,53 @@ public class UserController : Controller
 
         return RedirectToAction("Index");
     }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        List<RoleDto> roles = _roleService.GetAllRoles();
+        UserDto? user = _userService.GetUserById(id);
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        UserEdit ue = new UserEdit
+        {
+            Roles = roles,
+            User = user,
+            SelectedRoleIds = user.Role.Select(r => r.Id).ToList()
+        };
+
+        return View(ue);
+    }
+    [HttpPost]
+    public IActionResult Edit(UserEdit model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        Console.WriteLine("SelectedRoleIds: " + string.Join(",", model.SelectedRoleIds));
+        Console.WriteLine("Roles dans UserDto: " + model.User.Role.Count);
+        model.Roles = _roleService.GetAllRoles();
+        model.User.Role = model.Roles
+            .Where(r => model.SelectedRoleIds.Contains(r.Id))
+            .ToList();
+        
+        Console.WriteLine("Roles après mapping: " + model.User.Role.Count);
+
+        _userService.EditUser(model.User);
+
+        return RedirectToAction(nameof(Index));
+    }
+}
+
+public class UserEdit
+{
+    public List<RoleDto> Roles { get; set; } = new();
+
+    public UserDto User { get; set; } = null!;
+
+    public List<int> SelectedRoleIds { get; set; } = new();
 }

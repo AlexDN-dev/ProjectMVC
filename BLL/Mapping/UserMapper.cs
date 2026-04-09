@@ -14,7 +14,7 @@ public static class UserMapper
             Lastname = user.Lastname,
             Email = user.Email,
             CreatedAt = user.CreatedAt,
-            Role = user.Roles
+            Role = user.Roles.Select(RoleMapper.RoleToDto).ToList()
         };
     }
 

@@ -1,4 +1,4 @@
-﻿@using DAL.Entities
+﻿@using BLL.DTO
 @model BLL.DTO.UserDto
 
 @{
@@ -16,7 +16,7 @@
         </div>
         <div class="d-flex justify-content-center w-50">
             <p>Role : </p>
-            @foreach (Role r in Model.Role)
+            @foreach (RoleDto r in Model.Role)
             {
                 if (Model.Role.Any())
                 {
