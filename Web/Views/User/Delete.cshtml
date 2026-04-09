@@ -1,0 +1,24 @@
+﻿@model BLL.DTO.UserDto
+
+@{
+    ViewBag.Title = "Suppression du compte";
+    Layout = "_Layout";
+}
+
+<h2 class="text-center text-primary">Êtes vous sur de supprimer cet utilisateur ? </h2>
+<form method="post" asp-action="Delete" asp-route-id="@Model.Id">
+    <div class="mb-3">
+        <input type="hidden" asp-for="Id" />
+        <h3 class="form-label">Nom : </h3>
+        <p>@Model.Lastname</p>
+        <h3 class="form-label">Prénom : </h3>
+        <p>@Model.Firstname</p>
+    </div>
+    <div class="mb-3">
+        <h3 class="form-label">Email : </h3>
+        <P>@Model.Email</p>
+    </div>
+    <a asp-action="Index">Retour à la liste</a>
+    <button type="submit" class="btn btn-primary">Supprimer l'utilisateur</button>
+</form>
+

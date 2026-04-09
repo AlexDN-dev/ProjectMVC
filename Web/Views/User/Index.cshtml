@@ -1,0 +1,57 @@
+﻿@using BLL.DTO
+@using DAL.Entities
+@model System.Collections.Generic.List<BLL.DTO.UserDto>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@if (Model.Any())
+{
+    <h2 class="text-center my-2">Liste des User</h2>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["Message"]
+        </div>
+    }
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Lastname</th>
+            <th scope="col">Firstname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var f in Model)
+        {
+            <tr>
+                <td>@f.Lastname</td>
+                <td>@f.Firstname</td>
+                <td>@f.Email</td>
+                @if (f.Role.Any())
+                {
+                    <td>@string.Join(", ", f.Role.Select(r => r.RoleName))</td>
+                }
+                else
+                {
+                    <td>Aucun</td>
+                }
+                <td>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@f.Id">Voir plus</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@f.Id">Supprimer</a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@f.Id">Éditer</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Aucun user Trouvé</p>
+}
