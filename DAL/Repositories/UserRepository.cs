@@ -28,7 +28,12 @@ public class UserRepository : IUserRepository
 
     public int Create(User user)
     {
-        _context.Add(user);
+        Role? defaultRole = _context.Roles.FirstOrDefault(r => r.RoleName == "User");
+        if (defaultRole is not null)
+        {
+            user.Roles.Add(defaultRole);
+        }
+        _context.Users.Add(user);
         _context.SaveChanges();
         return user.Id;
     }
