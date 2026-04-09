@@ -13,7 +13,7 @@ public class UserRepository : IUserRepository
     }
     public IEnumerable<User> GetAll()
     {
-        return _context.Users.ToList();
+        return _context.Users.Include(u => u.Roles).AsNoTracking().ToList(); //AsNoTracking est optionnel mais boost les perfs pour de la lecture seul? askip
     }
 
     public User? GetById(int id)
