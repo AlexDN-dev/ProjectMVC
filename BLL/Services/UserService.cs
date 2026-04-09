@@ -9,13 +9,18 @@ namespace BLL.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+
+    public UserService(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
     
     public List<UserDto> GetAllUsers()
     {
         return _userRepository.GetAll().Select(UserMapper.UserToDto).ToList();
     }
 
-    public UserDto CreateUser(CreateUserDto user)
+    public bool CreateUser(CreateUserDto user)
     {
         User? existingUser = _userRepository.GetByEmail(user.Email);
         if (existingUser is not null)
@@ -26,13 +31,14 @@ public class UserService : IUserService
         User userEntity = UserMapper.UserDtoToEntity(user);
         userEntity.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
         _userRepository.Create(userEntity);
-        return UserMapper.UserToDto(userEntity);
+        return true;
     }
 
     public UserDto? GetUserById(int id)
     {
+        Console.WriteLine("DEBUG : " + id);
         User? user = _userRepository.GetById(id);
-        if (user is not null)
+        if (user is null)
         {
             throw new Exception("Aucun user trouvé.");
         }

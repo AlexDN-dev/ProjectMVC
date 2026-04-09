@@ -1,0 +1,36 @@
+﻿@using DAL.Entities
+@model BLL.DTO.CreateUserDto
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2 class="text-center">Ajouter un utilisateur</h2>
+<div class="w-100 d-flex justify-content-center align-content-center">
+    <form class="w-50" method="post" asp-action="AddUser">
+        <div class="mb-3">
+            <label asp-for="Lastname" class="form-label">Nom</label>
+            <input asp-for="Lastname" class="form-control" id="Lastname"/>
+            <span asp-validation-for="Lastname" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Firstname" class="form-label">Prénom</label>
+            <input asp-for="Firstname" class="form-control" id="Firstname"/>
+            <span asp-validation-for="Firstname" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">Email</label>
+            <input asp-for="Email" class="form-control" id="Email"/>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label">Mot de passe</label>
+            <input asp-for="Password" type="password" class="form-control" id="Password"/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="w-100 d-flex justify-content-center align-content-center">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </div>
+    </form>
+</div>
