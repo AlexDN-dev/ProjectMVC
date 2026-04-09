@@ -53,7 +53,14 @@ public class UserService : IUserService
 
     public bool DeleteUserById(int id)
     {
-        throw new NotImplementedException();
+        User? user = _userRepository.GetById(id);
+        if (user is null)
+        {
+            throw new Exception("Aucun utilisateur trouvé");
+        }
+
+        _userRepository.Delete(user.Id);
+        return true;
     }
 
     public bool AddRoleToUser(int userId, int roleId)

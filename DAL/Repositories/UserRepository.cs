@@ -46,9 +46,10 @@ public class UserRepository : IUserRepository
 
     public void Delete(int id)
     {
-        User? user = _context.Users.Find(id);
+        User? user = _context.Users.Include(u => u.Roles).FirstOrDefault(u => u.Id == id);
         if (user is not null)
         {
+            user.Roles.Clear();
             _context.Users.Remove(user);
             _context.SaveChanges();
         }

@@ -52,4 +52,31 @@ public class UserController : Controller
 
         return RedirectToAction("Index");
     }
+
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        UserDto? user = _userService.GetUserById(id);
+        if (user is null)
+        {
+            return NotFound();
+        }
+        return View(user);
+    }
+
+    [HttpPost]
+    public IActionResult Delete(UserDto user)
+    {
+        bool isSuccess = _userService.DeleteUserById(user.Id);
+        if (isSuccess)
+        {
+            TempData["Message"] = "Succès de la suppression de l'utilisateur ";
+        }
+        else
+        {
+            TempData["Message"] = "Impossible de supprimer cet utilisateur";
+        }
+
+        return RedirectToAction("Index");
+    }
 }
