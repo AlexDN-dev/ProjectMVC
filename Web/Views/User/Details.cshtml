@@ -1,0 +1,46 @@
+﻿@using DAL.Entities
+@model BLL.DTO.UserDto
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+<div style="box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);" class="container d-flex flex-column justify-content-center align-items-center bg-white rounded w-50 mt-4 p-2">
+    <h2>Details de L'utilisateur</h2>
+    <div class="d-flex w-100 mt-2">
+        <div class="d-flex justify-content-center w-50">
+            <p>ID : </p>
+            <span>@Model.Id</span>
+        </div>
+        <div class="d-flex justify-content-center w-50">
+            <p>Role : </p>
+            @foreach (Role r in Model.Role)
+            {
+                if (Model.Role.Any())
+                {
+                    <span>@r.RoleName</span>
+                }
+                else
+                {
+                    <span>Aucun</span>
+                }
+            }
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex justify-content-center w-50">
+            <p>Nom : </p>
+            <span>@Model.Lastname</span>
+        </div>
+        <div class="d-flex justify-content-center w-50">
+            <p>Prénom : </p>
+            <span>@Model.Firstname</span>
+        </div>
+    </div>
+    <div class="d-flex w-100 justify-content-center">
+        <p>Crée le : </p>
+        <span>@Model.CreatedAt</span>
+    </div>
+</div>
