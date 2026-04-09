@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository
 
     public User? GetById(int id)
     {
-        return _context.Users.Find(id);
+        return _context.Users.Include(u => u.Roles).FirstOrDefault(u => u.Id == id);
     }
 
     public User? GetByEmail(string email)
