@@ -15,7 +15,6 @@
 - [6. Flux complet d’une requête dans le projet](#6-flux-complet-dune-requête-dans-le-projet)
 - [7. Avantages de cette architecture dans ce projet](#7-avantages-de-cette-architecture-dans-ce-projet)
 - [Conclusion](#conclusion)
-- [Résumé ultra court](#résumé-ultra-court)
 
 ---
 
